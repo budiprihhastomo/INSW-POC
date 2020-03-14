@@ -31,9 +31,9 @@ export default class Authentication extends Component {
     keycloak
       .init({ onLoad: "login-required" })
       .success(authentication => {
-        keycloak.loadUserInfo().success(keycloak => {
+        keycloak.loadUserInfo().success(profile => {
           this.setState({ keycloak, authentication });
-          this._FetchByEmail(keycloak.email);
+          this._FetchByEmail(profile.email);
         });
       })
       .error(() => {
