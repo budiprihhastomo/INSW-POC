@@ -58,11 +58,12 @@ export default class Authentication extends Component {
         }));
         this._FetchByNIB(data.item.identitas);
       })
-      .catch(() =>
+      .catch(() => {
         toast.error(
           "Gagal mengambil informasi pengguna, coba kembali beberapa saat."
-        )
-      );
+        );
+        return this.state.keycloak.logout();
+      });
   };
 
   _FetchByNIB = nib => {
