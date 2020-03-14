@@ -85,7 +85,7 @@ export default class Authentication extends Component {
       );
   };
 
-  componentWillMount() {
+  componentDidMount() {
     this.onCheckAuthorization();
   }
 
