@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {Col, Nav, NavItem, NavLink, Row, TabContent, TabPane} from 'reactstrap';
-import TabHeader from '../../Pages/Dokumen/TabHeader'
+import TabHeader from '../../Pages/Dokumen/TabHeader';
+import TabIdentitas from '../../Pages/Dokumen/TabIdentitas';
 // import classnames from 'classnames';
 
 class Tabs extends Component {
@@ -33,7 +34,7 @@ class Tabs extends Component {
           <TabHeader />
         </TabPane>
         <TabPane tabId="2">
-          {`2. ${this.lorem()}`}
+          <TabIdentitas />
         </TabPane>
         <TabPane tabId="3">
           {`3. ${this.lorem()}`}
