@@ -8,6 +8,7 @@ import 'react-select/dist/react-select.min.css';
 // import './ValidationForms.css'
 
 const options = states.US;
+const options2 = states.AU;
 
 const validationSchema = function (values) {
   return Yup.object().shape({
@@ -85,7 +86,9 @@ class Header extends React.Component {
     this.touchAll = this.touchAll.bind(this);
 
     this.state = {
-      value: null
+      value: null,
+      value2: null,
+      value3: null
     }
   }
 
@@ -121,6 +124,14 @@ class Header extends React.Component {
 
   saveChanges(value) {
     this.setState({ value });
+  }
+
+  saveOptions = value2 => {
+    this.setState({ value2 });
+  }
+
+  saveSelect = value3 => {
+    this.setState({ value3 });
   }
 
   render() {
@@ -171,16 +182,13 @@ class Header extends React.Component {
                             <Label>Jenis PIB :</Label>
                         </Col>
                         <Col xs="6" md="4">
-                            <CustomInput 
-                                type="select" 
-                                name="selectPIB" 
-                                id="selectPIB"
-                            >
-                                <option value="0">Pilih Jenis</option>
-                                <option value="1">Option #1</option>
-                                <option value="2">Option #2</option>
-                                <option value="3">Option #3</option>
-                            </CustomInput>
+                        <Select
+                            name="select-pib"
+                            placeholder="Pilih Jenis"
+                            value={this.state.value2}
+                            options={options2}
+                            onChange={this.saveOptions}
+                          />
                         </Col>
                     </FormGroup>
                     <FormGroup row>
@@ -188,16 +196,13 @@ class Header extends React.Component {
                             <Label>Jenis Impor :</Label>
                         </Col>
                         <Col xs="6" md="4">
-                            <CustomInput 
-                                type="select" 
-                                name="selectImpor" 
-                                id="selectImpor"
-                            >
-                                <option value="">Pilih Jenis Impor</option>
-                                <option value="1">Option #1</option>
-                                <option value="2">Option #2</option>
-                                <option value="3">Option #3</option>
-                            </CustomInput>
+                        <Select
+                            name="select-pib"
+                            placeholder="Pilih Jenis Impor"
+                            value={this.state.value3}
+                            options={options}
+                            onChange={this.saveSelect}
+                          />
                         </Col>
                     </FormGroup>
                     <FormGroup row>

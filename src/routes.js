@@ -10,7 +10,6 @@ const Invoice = React.lazy(() => import('./views/Apps/Invoicing/Invoice'));
 
 const AdvancedForms = React.lazy(() => import('./views/Forms/AdvancedForms'));
 const BasicForms = React.lazy(() => import('./views/Forms/BasicForms'));
-const ValidationForms = React.lazy(() => import('./views/Forms/ValidationForms'));
 const GoogleMaps = React.lazy(() => import('./views/GoogleMaps'));
 const Toastr = React.lazy(() => import('./views/Notifications/Toastr'));
 const Calendar = React.lazy(() => import('./views/Plugins/Calendar'));
@@ -94,7 +93,6 @@ const routes = [
   { path: '/forms', name: 'Perekaman Dokumen', component: BasicForms, exact: true },
   { path: '/forms/advanced-forms', name: 'Advanced Forms', component: AdvancedForms },
   { path: '/forms/basic-forms', name: 'Perekaman Dokumen', component: BasicForms },
-  { path: '/forms/validation-forms', name: 'Validation Forms', component: ValidationForms },
   { path: '/google-maps', name: 'Google Maps', component: GoogleMaps },
   { path: '/icons', exact: true, name: 'Icons', component: CoreUIIcons },
   { path: '/icons/coreui-icons', name: 'CoreUI Icons', component: CoreUIIcons },
