@@ -1,0 +1,13 @@
+{
+    "clientId": "smart_custom",
+    "realm": "master",
+    "auth-server-url": "https://account.beacukai.go.id/auth",
+    "ssl-required": "external",
+    "resource": "smart_custom",
+    "verify-token-audience": true,
+    "credentials": {
+        "secret": "befb5cc0-cf3e-46a9-aea9-d98fb538cab4"
+    },
+    "confidential-port": 0,
+    "policy-enforcer": {}
+}
