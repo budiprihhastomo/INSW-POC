@@ -2,7 +2,12 @@ import React from 'react';
 import { Button, Col, CustomInput, Form, FormGroup, Label, Row} from 'reactstrap';
 import { Formik } from 'formik';
 import * as Yup from 'yup'
+import states from './data/states';
+import Select from 'react-select';
+import 'react-select/dist/react-select.min.css';
 // import './ValidationForms.css'
+
+const options = states.US;
 
 const validationSchema = function (values) {
   return Yup.object().shape({
@@ -76,8 +81,12 @@ const onSubmit = (values, { setSubmitting, setErrors }) => {
 class Header extends React.Component {
   constructor(props){
     super(props)
-    this.touchAll = this.touchAll.bind(this)
+    this.saveChanges = this.saveChanges.bind(this);
+    this.touchAll = this.touchAll.bind(this);
 
+    this.state = {
+      value: null
+    }
   }
 
   findFirstError (formName, hasError) {
@@ -110,6 +119,10 @@ class Header extends React.Component {
     this.validateForm(errors)
   }
 
+  saveChanges(value) {
+    this.setState({ value });
+  }
+
   render() {
     return (
       <div className="animated fadeIn">
@@ -136,16 +149,13 @@ class Header extends React.Component {
                             <Label>Pelabuhan Tujuan :</Label>
                         </Col>
                         <Col xs="6" md="4">
-                            <CustomInput 
-                                type="select" 
-                                name="selectEkspor" 
-                                id="selectEkspor"
-                            >
-                                <option value="">Pelabuhan Muat Ekspor</option>
-                                <option value="1">Option #1</option>
-                                <option value="2">Option #2</option>
-                                <option value="3">Option #3</option>
-                            </CustomInput>
+                          <Select
+                            name="select-ekspor"
+                            placeholder="Pelabuhan Muat Ekspor"
+                            value={this.state.value}
+                            options={options}
+                            onChange={this.saveChanges}
+                          />
                         </Col>
                     </FormGroup>
                     <FormGroup row>

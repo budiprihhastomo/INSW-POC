@@ -10,7 +10,7 @@ export default {
     },
     {
       name: 'Perekaman Dokumen',
-      url: '/forms/validation-forms',
+      url: '/forms',
       icon: 'icon-note',
     }
   ]
