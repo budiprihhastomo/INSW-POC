@@ -20,8 +20,8 @@ import navigation from "../../_nav";
 import routes from "../../routes";
 
 // const DefaultAside = React.lazy(() => import('./DefaultAside'));
-const DefaultFooter = React.lazy(() => import('./DefaultFooter'));
-const DefaultHeader = React.lazy(() => import('./DefaultHeader'));
+const DefaultFooter = React.lazy(() => import("./DefaultFooter"));
+const DefaultHeader = React.lazy(() => import("./DefaultHeader"));
 
 class DefaultLayout extends Component {
   loading = () => (
@@ -32,7 +32,7 @@ class DefaultLayout extends Component {
 
   signOut(e) {
     e.preventDefault();
-    this.props.history.push("/login");
+    this.props.keycloak.logout();
   }
 
   render() {

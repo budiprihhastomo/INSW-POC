@@ -2,15 +2,28 @@ import React, { Component } from "react";
 import { Route } from "react-router-dom";
 import Keycloak from "keycloak-js";
 import { toast } from "react-toastify";
+import fetch from "axios";
 import "react-toastify/dist/ReactToastify.css";
 
 // Containers
 const DefaultLayout = React.lazy(() => import("../containers/DefaultLayout"));
+const {
+  REACT_APP_AMWS_API,
+  REACT_APP_AMWS_KEY,
+  REACT_APP_REFERENSI_API,
+  REACT_APP_REFERENSI_KEY
+} = process.env;
+const cfgAMWS = { headers: { "X-Gravitee-Api-Key": REACT_APP_AMWS_KEY } };
+const cfgREF = { headers: { "X-Gravitee-Api-Key": REACT_APP_REFERENSI_KEY } };
 
 export default class Authentication extends Component {
   state = {
     keycloak: null,
-    authentication: false
+    authentication: false,
+    profile: {
+      pengguna: null,
+      perusahaan: null
+    }
   };
 
   onCheckAuthorization = () => {
@@ -18,10 +31,9 @@ export default class Authentication extends Component {
     keycloak
       .init({ onLoad: "login-required" })
       .success(authentication => {
-        console.log(authentication);
-        keycloak.loadUserProfile(profile => {
-          const { attributes } = profile,
-            { nip } = attributes;
+        keycloak.loadUserInfo().success(keycloak => {
+          this.setState({ keycloak, authentication });
+          this._FetchByEmail(keycloak.email);
         });
       })
       .error(() => {
@@ -30,6 +42,47 @@ export default class Authentication extends Component {
           "Terjadi kesalahan! Silahkan coba kembali atau hubungi Administrator."
         );
       });
+  };
+
+  _FetchByEmail = email => {
+    const path = `${REACT_APP_AMWS_API}/v1/user/user-info-by-email`;
+    const config = {
+      ...cfgAMWS,
+      params: { email }
+    };
+    fetch
+      .get(path, config)
+      .then(({ data }) => {
+        this.setState(pState => ({
+          profile: { ...pState.profile, pengguna: data.item }
+        }));
+        this._FetchByNIB(data.item.identitas);
+      })
+      .catch(() =>
+        toast.error(
+          "Gagal mengambil informasi pengguna, coba kembali beberapa saat."
+        )
+      );
+  };
+
+  _FetchByNIB = nib => {
+    const path = `${REACT_APP_REFERENSI_API}/v1/profile-perusahaan/get-user-info`;
+    const config = {
+      ...cfgREF,
+      params: { nib }
+    };
+    fetch
+      .post(path, null, config)
+      .then(({ data }) =>
+        this.setState(pState => ({
+          profile: { ...pState.profile, perusahaan: data.item }
+        }))
+      )
+      .catch(() =>
+        toast.error(
+          "Gagal mengambil informasi pengguna, coba kembali beberapa saat."
+        )
+      );
   };
 
   componentWillMount() {
@@ -42,7 +95,9 @@ export default class Authentication extends Component {
         <Route
           path="/"
           name="Home"
-          render={props => <DefaultLayout {...props} />}
+          render={props => (
+            <DefaultLayout keycloak={this.state.keycloak} {...props} />
+          )}
         />
       </>
     );
