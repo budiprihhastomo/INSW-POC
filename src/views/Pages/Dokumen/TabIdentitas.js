@@ -11,6 +11,7 @@ import {
   Label,
   Row,
 } from 'reactstrap';
+import DataTable from '../../Tables/DataTable/DataTable'
 import states from './data/states';
 import Select from 'react-select';
 import 'react-select/dist/react-select.min.css';
@@ -154,7 +155,7 @@ class Identitas extends Component {
                     <Form action="" method="post" encType="multipart/form-data" className="form-horizontal">
                     <FormGroup row>
                         <Col md="3">
-                        <Label htmlFor="textarea-input">Nama</Label>
+                        <Label htmlFor="textarea-input">Nama cuy</Label>
                         </Col>
                         <Col xs="12" md="9">
                         <Input type="textarea" name="textarea-nama" id="textarea-nama" rows="3"
@@ -234,20 +235,13 @@ class Identitas extends Component {
         </Row>
         <Row>
             <Col xs="12" md="6">
-                <Button type="submit" color="primary" className="mr-1">Kirim Data Entitas</Button>
+                <Button type="submit" color="primary" className="mr-1"><i className="fa fa-send"></i>&nbsp; Kirim Data Entitas</Button>
             </Col>
         </Row>
         <br />
         <Row>
             <Col xs="12" md="12">
-                <Card>
-                    <CardHeader>
-                        <strong>Pemilik Barang</strong>
-                    </CardHeader>
-                    <CardBody>
-
-                    </CardBody>
-                </Card>
+                <DataTable />
             </Col>
         </Row>
       </div>

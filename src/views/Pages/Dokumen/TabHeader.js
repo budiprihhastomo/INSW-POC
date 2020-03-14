@@ -232,7 +232,7 @@ class Header extends React.Component {
                     </FormGroup>
                     <FormGroup row>
                         <Col xs="6" md={{offset: 2, size: 4}}>
-                            <Button type="submit" color="primary" className="mr-1">Simpan Data</Button>
+                            <Button type="submit" color="primary" className="mr-1"><i className="fa fa-save"></i>&nbsp; Simpan Data</Button>
                             {/* <Button type="button" color="success" className="mr-1" onClick={() => this.touchAll(setTouched, errors)}  disabled={isValid}>Validate</Button>
                             <Button type="reset" color="danger" className="mr-1" onClick={handleReset}>Reset</Button> */}
                         </Col>
