@@ -148,18 +148,18 @@ class Header extends React.Component {
                 <Col lg="12">
                     <Form onSubmit={handleSubmit} noValidate name='simpleForm'>
                     <FormGroup row>
-                        <Col xs="6" md={{offset: 2, size: 4}}>
+                        <Col xs="6" md={{offset: 2, size: 4}} xs="12">
                             <Label>No. Pengajuan :</Label>
                         </Col>
-                        <Col xs="6" md="6">
+                        <Col xs="6" md="6" xs="12">
                             <p className="form-control-static">000020-161682-20200314-000537</p>
                         </Col>
                     </FormGroup>
                     <FormGroup row>
-                        <Col xs="6" md={{offset: 2, size: 4}}>
+                        <Col xs="6" md={{offset: 2, size: 4}} xs="12">
                             <Label>Pelabuhan Tujuan :</Label>
                         </Col>
-                        <Col xs="6" md="4">
+                        <Col xs="6" md="4" xs="12">
                           <Select
                             name="select-ekspor"
                             placeholder="Pelabuhan Muat Ekspor"
@@ -170,18 +170,18 @@ class Header extends React.Component {
                         </Col>
                     </FormGroup>
                     <FormGroup row>
-                        <Col xs="6" md={{offset: 2, size: 4}}>
+                        <Col xs="6" md={{offset: 2, size: 4}} xs="12">
                             <Label>Kantor Pabean Bongkar :</Label>
                         </Col>
-                        <Col xs="6" md="4">
+                        <Col xs="6" md="4" xs="12">
                             <p className="form-control-static">081400 - KPPBC ATAMBUA</p>
                         </Col>
                     </FormGroup>
                     <FormGroup row>
-                        <Col xs="6" md={{offset: 2, size: 4}}>
+                        <Col xs="6" md={{offset: 2, size: 4}} xs="12">
                             <Label>Jenis PIB :</Label>
                         </Col>
-                        <Col xs="6" md="4">
+                        <Col xs="6" md="4" xs="12">
                         <Select
                             name="select-pib"
                             placeholder="Pilih Jenis"
@@ -192,24 +192,24 @@ class Header extends React.Component {
                         </Col>
                     </FormGroup>
                     <FormGroup row>
-                        <Col xs="6" md={{offset: 2, size: 4}}>
+                        <Col xs="6" md={{offset: 2, size: 4}} xs="12">
                             <Label>Jenis Impor :</Label>
                         </Col>
-                        <Col xs="6" md="4">
+                        <Col xs="6" md="4" xs="12">
                         <Select
                             name="select-pib"
                             placeholder="Pilih Jenis Impor"
-                            value={this.state.value3}
+                            value={this.state.value3} 
                             options={options}
                             onChange={this.saveSelect}
                           />
                         </Col>
                     </FormGroup>
                     <FormGroup row>
-                        <Col xs="6" md={{offset: 2, size: 4}}>
+                        <Col xs="6" md={{offset: 2, size: 4}} xs="12">
                             <Label>Cara Pembayaran :</Label>
                         </Col>
-                        <Col xs="6" md="4">
+                        <Col xs="6" md="4" xs="12">
                             <CustomInput 
                                 type="select" 
                                 name="selectBayar" 
@@ -223,15 +223,15 @@ class Header extends React.Component {
                         </Col>
                     </FormGroup>
                     <FormGroup row>
-                        <Col xs="6" md={{offset: 2, size: 4}}>
+                        <Col xs="6" md={{offset: 2, size: 4}} xs="12">
                             <Label>No API-U/P :</Label>
                         </Col>
-                        <Col xs="6" md="4">
+                        <Col xs="6" md="4" xs="12">
                             <p className="form-control-static"></p>
                         </Col>
                     </FormGroup>
                     <FormGroup row>
-                        <Col xs="6" md={{offset: 2, size: 4}}>
+                        <Col xs="6" md={{offset: 2, size: 4}} xs="12">
                             <Button type="submit" color="primary" className="mr-1"><i className="fa fa-save"></i>&nbsp; Simpan Data</Button>
                             {/* <Button type="button" color="success" className="mr-1" onClick={() => this.touchAll(setTouched, errors)}  disabled={isValid}>Validate</Button>
                             <Button type="reset" color="danger" className="mr-1" onClick={handleReset}>Reset</Button> */}
