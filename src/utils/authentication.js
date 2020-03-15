@@ -31,10 +31,19 @@ export default class Authentication extends Component {
     keycloak
       .init({ onLoad: "login-required" })
       .success(authentication => {
-        keycloak.loadUserInfo().success(profile => {
-          this.setState({ keycloak, authentication });
-          this._FetchByEmail(profile.email);
-        });
+        keycloak
+          .loadUserInfo()
+          .success(profile => {
+            if (!profile.email_verified) {
+              setTimeout(() => keycloak.logout(), 3000);
+              return toast.warn(
+                "Anda belum melakukan verifikasi akun dengan e-mail. Aktifkan akun terlebih dahulu!"
+              );
+            }
+            this.setState({ keycloak, authentication });
+            this._FetchByEmail(profile.email);
+          })
+          .error(() => setTimeout(() => keycloak.logout(), 3000));
       })
       .error(() => {
         setTimeout(() => keycloak.logout(), 3000);
@@ -58,11 +67,12 @@ export default class Authentication extends Component {
         }));
         this._FetchByNIB(data.item.identitas);
       })
-      .catch(() =>
+      .catch(() => {
         toast.error(
           "Gagal mengambil informasi pengguna, coba kembali beberapa saat."
-        )
-      );
+        );
+        return this.state.keycloak.logout();
+      });
   };
 
   _FetchByNIB = nib => {
