@@ -1,19 +1,9 @@
 import React, { Component } from "react";
 import { NavLink } from "react-router-dom";
-import {
-  Button,
-  Col,
-  FormGroup,
-  Label,
-  Input,
-  Modal,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
-  Row
-} from "reactstrap";
+import { Button } from "reactstrap";
 import { BootstrapTable, TableHeaderColumn } from "react-bootstrap-table";
 import "react-bootstrap-table/dist//react-bootstrap-table-all.min.css";
+import Modal from "../../../components/Modal/DataKontainer";
 import data from "../../Tables/DataTable/_data";
 
 // React DatePicker
@@ -45,8 +35,7 @@ class TabKemasan extends Component {
 
     this.table = data.rows;
     this.state = {
-      modal: false,
-      large: false
+      modal: false
     };
     this.options = {
       sortIndicator: true,
@@ -70,112 +59,26 @@ class TabKemasan extends Component {
     );
   }
 
-  toggleLarge = () => {
+  toggleModal = () => {
     this.setState({
-      large: !this.state.large
+      modal: !this.state.modal
     });
   };
 
   render() {
     return (
       <div className="animated">
-        <Button color="primary" onClick={this.toggleLarge} className="mr-1">
+        <Button color="primary" onClick={this.toggleModal} className="mr-1">
           <i className="fa fa-plus"></i>&nbsp; Tambah Kontainer
         </Button>
         <Modal
-          isOpen={this.state.large}
-          toggle={this.toggleLarge}
+          isOpen={this.state.modal}
+          toggle={this.toggleModal}
           className={"modal-lg " + this.props.className}
-        >
-          <ModalHeader toggle={this.toggleLarge}>
-            Tambah Data Kontainer
-          </ModalHeader>
-          <ModalBody>
-            <Row>
-              <Col xs="12" md="6">
-                <FormGroup row>
-                  <Label for="tipeKontainer" md="4">
-                    Tipe Kontainer
-                  </Label>
-                  <Col xs="12" md="8">
-                    <Input
-                      type="select"
-                      name="tipeKontainer"
-                      id="tipeKontainer"
-                    >
-                      <option value="0">NPWP 15 Digit</option>
-                      <option value="1">KTP</option>
-                      <option value="2">NPWP 12 Digit</option>
-                      <option value="3">Lainnya</option>
-                    </Input>
-                  </Col>
-                </FormGroup>
-              </Col>
-              <Col xs="12" md="6">
-                <FormGroup row>
-                  <Label for="ukuranKontainer" md="4">
-                    Ukuran Kontainer
-                  </Label>
-                  <Col xs="12" md="8">
-                    <Input
-                      type="select"
-                      name="ukuranKontainer"
-                      id="ukuranKontainer"
-                    >
-                      <option value="0">20-20 FEET</option>
-                      <option value="1">40-40 FEET</option>
-                      <option value="2">45-45 FEET</option>
-                      <option value="2">60-60 FEET</option>
-                      <option value="3">Lainnya</option>
-                    </Input>
-                  </Col>
-                </FormGroup>
-              </Col>
-              <Col xs="12" md="6">
-                <FormGroup row>
-                  <Label for="jenisKontainer" md="4">
-                    Jenis Kontainer
-                  </Label>
-                  <Col xs="12" md="8">
-                    <Input
-                      type="select"
-                      name="jenisKontainer"
-                      id="jenisKontainer"
-                    >
-                      <option value="0">4 - EMPTY</option>
-                      <option value="1">8 - FCL</option>
-                      <option value="2">7 - LCL</option>
-                      <option value="3">Lainnya</option>
-                    </Input>
-                  </Col>
-                </FormGroup>
-              </Col>
-              <Col xs="12" md="6">
-                <FormGroup row>
-                  <Label for="noKontainer" md="4">
-                    No Kontainer
-                  </Label>
-                  <Col xs="12" md="8">
-                    <Input
-                      type="text"
-                      id="noKontainer"
-                      name="noKontainer"
-                      placeholder="Nomor Identitas"
-                    />
-                  </Col>
-                </FormGroup>
-              </Col>
-            </Row>
-          </ModalBody>
-          <ModalFooter>
-            <Button color="secondary" onClick={this.toggleLarge}>
-              Cancel
-            </Button>
-            <Button color="primary" onClick={this.toggleLarge}>
-              OK
-            </Button>{" "}
-          </ModalFooter>
-        </Modal>
+          title="Tambah Data Kontainer"
+          onOk={this.toggleModal}
+          onCancel={this.toggleModal}
+        />
         <BootstrapTable
           data={this.table}
           version="4"
