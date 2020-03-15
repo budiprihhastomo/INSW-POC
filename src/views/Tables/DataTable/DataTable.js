@@ -1,21 +1,8 @@
 import React, { Component } from "react";
 import { NavLink } from "react-router-dom";
-import {
-  Button,
-  Card,
-  CardHeader,
-  CardBody,
-  Col,
-  FormGroup,
-  Label,
-  Input,
-  Modal,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
-  Row
-} from "reactstrap";
+import { Button, Card, CardHeader, CardBody } from "reactstrap";
 import { BootstrapTable, TableHeaderColumn } from "react-bootstrap-table";
+import ModalDataPemilik from "../../../components/Modal/DataPemilik";
 import "react-bootstrap-table/dist//react-bootstrap-table-all.min.css";
 import data from "./_data";
 
@@ -25,8 +12,7 @@ class DataTable extends Component {
 
     this.table = data.rows;
     this.state = {
-      modal: false,
-      large: false
+      modal: false
     };
     this.options = {
       sortIndicator: true,
@@ -52,7 +38,7 @@ class DataTable extends Component {
 
   toggleLarge = () => {
     this.setState({
-      large: !this.state.large
+      modal: !this.state.modal
     });
   };
 
@@ -68,89 +54,14 @@ class DataTable extends Component {
             <Button color="primary" onClick={this.toggleLarge} className="mr-1">
               <i className="fa fa-plus"></i>&nbsp; Tambah
             </Button>
-            <Modal
-              isOpen={this.state.large}
+            <ModalDataPemilik
+              isOpen={this.state.modal}
               toggle={this.toggleLarge}
-              className={"modal-lg " + this.props.className}
-            >
-              <ModalHeader toggle={this.toggleLarge}>
-                Tambah Data Pemilik
-              </ModalHeader>
-              <ModalBody>
-                <Row>
-                  <Col xs="12" md="6">
-                    <FormGroup row>
-                      <Col md="4">
-                        <Label>Jenis Identitas</Label>
-                      </Col>
-                      <Col xs="12" md="8">
-                        <Input type="select" name="select" id="select">
-                          <option value="0">NPWP 15 Digit</option>
-                          <option value="1">KTP</option>
-                          <option value="2">NPWP 12 Digit</option>
-                          <option value="3">Lainnya</option>
-                        </Input>
-                      </Col>
-                    </FormGroup>
-                  </Col>
-                  <Col xs="12" md="6">
-                    <FormGroup row>
-                      <Col md="4">
-                        <Label>No. Identitas</Label>
-                      </Col>
-                      <Col xs="12" md="8">
-                        <Input
-                          type="text"
-                          id="text-input"
-                          name="text-input"
-                          placeholder="Nomor Identitas"
-                        />
-                      </Col>
-                    </FormGroup>
-                  </Col>
-                </Row>
-                <Row>
-                  <Col xs="12" md="6">
-                    <FormGroup row>
-                      <Col md="4">
-                        <Label>Nama</Label>
-                      </Col>
-                      <Col xs="12" md="8">
-                        <Input
-                          type="text"
-                          id="text-input"
-                          name="text-input"
-                          placeholder="Masukkan Nama"
-                        />
-                      </Col>
-                    </FormGroup>
-                  </Col>
-                  <Col xs="12" md="6">
-                    <FormGroup row>
-                      <Col md="4">
-                        <Label>Alamat</Label>
-                      </Col>
-                      <Col xs="12" md="8">
-                        <Input
-                          type="textarea"
-                          id="textarea-input"
-                          name="textarea-input"
-                          placeholder="Masukkan Alamat"
-                        />
-                      </Col>
-                    </FormGroup>
-                  </Col>
-                </Row>
-              </ModalBody>
-              <ModalFooter>
-                <Button color="secondary" onClick={this.toggleLarge}>
-                  Cancel
-                </Button>
-                <Button color="primary" onClick={this.toggleLarge}>
-                  OK
-                </Button>{" "}
-              </ModalFooter>
-            </Modal>
+              className={"modal-md " + this.props.className}
+              onOk={this.toggleLarge}
+              onCancel={this.toggleLarge}
+              title="Tambah Data Pemilik"
+            />
             <BootstrapTable
               data={this.table}
               version="4"
