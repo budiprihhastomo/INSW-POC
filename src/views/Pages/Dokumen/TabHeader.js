@@ -1,65 +1,79 @@
-import React from 'react';
-import { Button, Col, CustomInput, Form, FormGroup, Label, Row } from 'reactstrap';
-import { Formik } from 'formik';
-import * as Yup from 'yup'
-import states from './data/states';
-import Select from 'react-select';
-import 'react-select/dist/react-select.min.css';
+import React from "react";
+import {
+  Button,
+  Col,
+  CustomInput,
+  Form,
+  FormGroup,
+  Label,
+  Row
+} from "reactstrap";
+import { Formik } from "formik";
+import * as Yup from "yup";
+import states from "./data/states";
+import Select from "react-select";
+import "react-select/dist/react-select.min.css";
 // import './ValidationForms.css'
 
 const options = states.US;
 const options2 = states.AU;
 
-const validationSchema = function (values) {
+const validationSchema = function(values) {
   return Yup.object().shape({
-    select: Yup.string()
-      .required('Pilih Pelabuhan Tujuan!'),
+    select: Yup.string().required("Pilih Pelabuhan Tujuan!"),
     firstName: Yup.string()
       .min(2, `First name has to be at least 2 characters`)
-      .required('First name is required'),
+      .required("First name is required"),
     lastName: Yup.string()
       .min(1, `Last name has to be at least 1 character`)
-      .required('Last name is required'),
+      .required("Last name is required"),
     userName: Yup.string()
       .min(5, `Username has to be at least 5 characters`)
-      .required('Username is required'),
+      .required("Username is required"),
     email: Yup.string()
-      .email('Invalid email address')
-      .required('Email is required!'),
+      .email("Invalid email address")
+      .required("Email is required!"),
     password: Yup.string()
       .min(6, `Password has to be at least ${6} characters!`)
-      .matches(/(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/, 'Password must contain: numbers, uppercase and lowercase letters\n')
-      .required('Password is required'),
+      .matches(
+        /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/,
+        "Password must contain: numbers, uppercase and lowercase letters\n"
+      )
+      .required("Password is required"),
     confirmPassword: Yup.string()
-      .oneOf([values.password], 'Passwords must match')
-      .required('Password confirmation is required'),
+      .oneOf([values.password], "Passwords must match")
+      .required("Password confirmation is required"),
     accept: Yup.bool()
-      .required('* required')
-      .test('accept', 'You have to accept our Terms and Conditions!', value => value === true),
-  })
-}
+      .required("* required")
+      .test(
+        "accept",
+        "You have to accept our Terms and Conditions!",
+        value => value === true
+      )
+  });
+};
 
-const validate = (getValidationSchema) => {
-  return (values) => {
-    const validationSchema = getValidationSchema(values)
+const validate = getValidationSchema => {
+  return values => {
+    const validationSchema = getValidationSchema(values);
     try {
-      validationSchema.validateSync(values, { abortEarly: false })
-      return {}
+      validationSchema.validateSync(values, { abortEarly: false });
+      return {};
     } catch (error) {
-      return getErrorsFromValidationError(error)
+      return getErrorsFromValidationError(error);
     }
-  }
-}
+  };
+};
 
-const getErrorsFromValidationError = (validationError) => {
-  const FIRST_ERROR = 0
+const getErrorsFromValidationError = validationError => {
+  const FIRST_ERROR = 0;
   return validationError.inner.reduce((errors, error) => {
     return {
       ...errors,
-      [error.path]: error.errors[FIRST_ERROR],
-    }
-  }, {})
-}
+      [error.path]: error.errors[FIRST_ERROR]
+    };
+  }, {});
+};
 
 const initialValues = {
   firstName: "",
@@ -69,19 +83,18 @@ const initialValues = {
   password: "",
   confirmPassword: "",
   accept: false
-}
+};
 
 const onSubmit = (values, { setSubmitting, setErrors }) => {
   setTimeout(() => {
-    alert(JSON.stringify(values, null, 2))
-    // console.log('User has been successfully saved!', values)
-    setSubmitting(false)
-  }, 2000)
-}
+    alert(JSON.stringify(values, null, 2));
+    setSubmitting(false);
+  }, 2000);
+};
 
 class Header extends React.Component {
   constructor(props) {
-    super(props)
+    super(props);
     this.saveChanges = this.saveChanges.bind(this);
     this.touchAll = this.touchAll.bind(this);
 
@@ -89,23 +102,23 @@ class Header extends React.Component {
       value: null,
       value2: null,
       value3: null
-    }
+    };
   }
 
   findFirstError(formName, hasError) {
-    const form = document.forms[formName]
+    const form = document.forms[formName];
     for (let i = 0; i < form.length; i++) {
       if (hasError(form[i].name)) {
-        form[i].focus()
-        break
+        form[i].focus();
+        break;
       }
     }
   }
 
   validateForm(errors) {
-    this.findFirstError('simpleForm', (fieldName) => {
-      return Boolean(errors[fieldName])
-    })
+    this.findFirstError("simpleForm", fieldName => {
+      return Boolean(errors[fieldName]);
+    });
   }
 
   touchAll(setTouched, errors) {
@@ -117,9 +130,8 @@ class Header extends React.Component {
       password: true,
       confirmPassword: true,
       accept: true
-    }
-    )
-    this.validateForm(errors)
+    });
+    this.validateForm(errors);
   }
 
   saveChanges(value) {
@@ -128,11 +140,11 @@ class Header extends React.Component {
 
   saveOptions = value2 => {
     this.setState({ value2 });
-  }
+  };
 
   saveSelect = value3 => {
     this.setState({ value3 });
-  }
+  };
 
   render() {
     return (
@@ -142,107 +154,131 @@ class Header extends React.Component {
           initialValues={initialValues}
           validate={validate(validationSchema)}
           onSubmit={onSubmit}
-          render={
-            ({ handleSubmit }) => (
-              <Row>
-                <Col lg="12">
-                  <Form onSubmit={handleSubmit} noValidate name='simpleForm'>
-                    <FormGroup row>
-                      <Col xs="6" md={{ offset: 2, size: 4 }} xs="12">
-                        <Label>No. Pengajuan :</Label>
-                      </Col>
-                      <Col xs="6" md="6" xs="12">
-                        <p className="form-control-static">000020-161682-20200314-000537</p>
-                      </Col>
-                    </FormGroup>
-                    <FormGroup row>
-                      <Col xs="6" md={{ offset: 2, size: 4 }} xs="12">
-                        <Label>Pelabuhan Tujuan :</Label>
-                      </Col>
-                      <Col xs="6" md="4" xs="12">
-                        <Select
-                          name="select-ekspor"
-                          placeholder="Pelabuhan Muat Ekspor"
-                          value={this.state.value}
-                          options={options}
-                          onChange={this.saveChanges}
-                        />
-                      </Col>
-                    </FormGroup>
-                    <FormGroup row>
-                      <Col xs="6" md={{ offset: 2, size: 4 }} xs="12">
-                        <Label>Kantor Pabean Bongkar :</Label>
-                      </Col>
-                      <Col xs="6" md="4" xs="12">
-                        <p className="form-control-static">081400 - KPPBC ATAMBUA</p>
-                      </Col>
-                    </FormGroup>
-                    <FormGroup row>
-                      <Col xs="6" md={{ offset: 2, size: 4 }} xs="12">
-                        <Label>Jenis PIB :</Label>
-                      </Col>
-                      <Col xs="6" md="4" xs="12">
-                        <Select
-                          name="select-pib"
-                          placeholder="Pilih Jenis"
-                          value={this.state.value2}
-                          options={options2}
-                          onChange={this.saveOptions}
-                        />
-                      </Col>
-                    </FormGroup>
-                    <FormGroup row>
-                      <Col xs="6" md={{ offset: 2, size: 4 }} xs="12">
-                        <Label>Jenis Impor :</Label>
-                      </Col>
-                      <Col xs="6" md="4" xs="12">
-                        <Select
-                          name="select-pib"
-                          placeholder="Pilih Jenis Impor"
-                          value={this.state.value3}
-                          options={options}
-                          onChange={this.saveSelect}
-                        />
-                      </Col>
-                    </FormGroup>
-                    <FormGroup row>
-                      <Col xs="6" md={{ offset: 2, size: 4 }} xs="12">
-                        <Label>Cara Pembayaran :</Label>
-                      </Col>
-                      <Col xs="6" md="4" xs="12">
-                        <CustomInput
-                          type="select"
-                          name="selectBayar"
-                          id="selectBayar"
-                        >
-                          <option value="">Pilih Cara Pembayaran</option>
-                          <option value="1">Option #1</option>
-                          <option value="2">Option #2</option>
-                          <option value="3">Option #3</option>
-                        </CustomInput>
-                      </Col>
-                    </FormGroup>
-                    <FormGroup row>
-                      <Col xs="6" md={{ offset: 2, size: 4 }} xs="12">
-                        <Label>No API-U/P :</Label>
-                      </Col>
-                      <Col xs="6" md="4" xs="12">
-                        <p className="form-control-static"></p>
-                      </Col>
-                    </FormGroup>
-                    <FormGroup row>
-                      <Col xs="6" md={{ offset: 2, size: 4 }} xs="12">
-                        <Button type="submit" color="primary" className="mr-1"><i className="fa fa-save"></i>&nbsp; Simpan Data</Button>
-                        {/* <Button type="button" color="success" className="mr-1" onClick={() => this.touchAll(setTouched, errors)}  disabled={isValid}>Validate</Button>
-                            <Button type="reset" color="danger" className="mr-1" onClick={handleReset}>Reset</Button> */}
-                      </Col>
-                    </FormGroup>
-                  </Form>
-                </Col>
-              </Row>
-            )} />
+          render={({ handleSubmit }) => (
+            <Row>
+              <Col lg="12">
+                <Form onSubmit={handleSubmit} noValidate>
+                  <FormGroup row>
+                    <Label
+                      for="noPengajuan"
+                      md={{ offset: 2, size: 4 }}
+                      xs="12"
+                    >
+                      No. Pengajuan :
+                    </Label>
+                    <Col md="6" xs="12">
+                      <p className="form-control-static" id="noPengajuan">
+                        000020-161682-20200314-000537
+                      </p>
+                    </Col>
+                  </FormGroup>
+                  <FormGroup row>
+                    <Label
+                      for="select-ekspor"
+                      md={{ offset: 2, size: 4 }}
+                      xs="12"
+                    >
+                      Pelabuhan Tujuan :
+                    </Label>
+                    <Col md="4" xs="12">
+                      <Select
+                        name="select-ekspor"
+                        placeholder="Pelabuhan Muat Ekspor"
+                        value={this.state.value}
+                        options={options}
+                        onChange={this.saveChanges}
+                      />
+                    </Col>
+                  </FormGroup>
+                  <FormGroup row>
+                    <Label
+                      for="kantorPabean"
+                      md={{ offset: 2, size: 4 }}
+                      xs="12"
+                    >
+                      Kantor Pabean Bongkar :
+                    </Label>
+                    <Col md="4" xs="12">
+                      <p className="form-control-static" id="kantorPabean">
+                        081400 - KPPBC ATAMBUA
+                      </p>
+                    </Col>
+                  </FormGroup>
+                  <FormGroup row>
+                    <Label for="select-pib" md={{ offset: 2, size: 4 }} xs="12">
+                      Jenis PIB :
+                    </Label>
+                    <Col md="4" xs="12">
+                      <Select
+                        name="select-pib"
+                        placeholder="Pilih Jenis"
+                        value={this.state.value2}
+                        options={options2}
+                        onChange={this.saveOptions}
+                      />
+                    </Col>
+                  </FormGroup>
+                  <FormGroup row>
+                    <Label
+                      for="select-impor"
+                      md={{ offset: 2, size: 4 }}
+                      xs="12"
+                    >
+                      Jenis Impor :
+                    </Label>
+                    <Col md="4" xs="12">
+                      <Select
+                        name="select-impor"
+                        placeholder="Pilih Jenis Impor"
+                        value={this.state.value3}
+                        options={options}
+                        onChange={this.saveSelect}
+                      />
+                    </Col>
+                  </FormGroup>
+                  <FormGroup row>
+                    <Label
+                      for="select-bayar"
+                      md={{ offset: 2, size: 4 }}
+                      xs="12"
+                    >
+                      Cara Pembayaran :
+                    </Label>
+                    <Col md="4" xs="12">
+                      <CustomInput
+                        type="select"
+                        name="select-bayar"
+                        id="select-bayar"
+                      >
+                        <option value="">Pilih Cara Pembayaran</option>
+                        <option value="1">Option #1</option>
+                        <option value="2">Option #2</option>
+                        <option value="3">Option #3</option>
+                      </CustomInput>
+                    </Col>
+                  </FormGroup>
+                  <FormGroup row>
+                    <Label for="noAPI" md={{ offset: 2, size: 4 }} xs="12">
+                      No API-U/P :
+                    </Label>
+                    <Col md="4" xs="12">
+                      <p className="form-control-static" id="noAPI"></p>
+                    </Col>
+                  </FormGroup>
+                  <FormGroup row>
+                    <Col md={{ offset: 2, size: 4 }} xs="12">
+                      <Button type="submit" color="primary" className="mr-1">
+                        <i className="fa fa-save"></i>&nbsp; Simpan Data
+                      </Button>
+                    </Col>
+                  </FormGroup>
+                </Form>
+              </Col>
+            </Row>
+          )}
+        />
       </div>
-    )
+    );
   }
 }
 
