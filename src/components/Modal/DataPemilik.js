@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Col, Row, Input, FormGroup, Label, Button } from "reactstrap";
+import { Col, Row, Input, FormGroup, Label } from "reactstrap";
 import Modal from "./Modal.base";
 
 export default class DataPemilik extends Component {
