@@ -115,7 +115,7 @@ export default class Authentication extends Component {
             path="/"
             name="Home"
             render={props => (
-              <DefaultLayout keycloak={this.state.keycloak} {...props} />
+              <DefaultLayout keycloak={this.state.keycloak} authentication={this.state.authentication} {...props} />
             )}
           />
         </>
