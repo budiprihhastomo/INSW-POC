@@ -1,8 +1,12 @@
-import React, {Component} from 'react';
-import {Col, Nav, NavItem, NavLink, Row, TabContent, TabPane} from 'reactstrap';
+import React, { Component } from 'react';
+import { Col, Nav, NavItem, NavLink, Row, TabContent, TabPane } from 'reactstrap';
 import TabHeader from '../../Pages/Dokumen/TabHeader';
 import TabIdentitas from '../../Pages/Dokumen/TabIdentitas';
 import TabDokumen from '../../Pages/Dokumen/TabDokumen'
+import TabPungutan from '../../Pages/Dokumen/TabPungutan';
+import TabKemasanKontainer from '../../Pages/Dokumen/TabKemasan';
+import TabPengangkutan from '../../Pages/Dokumen/TabPengangkutan';
+import TabTransaksi from '../../Pages/Dokumen/TabTransaksi';
 // import classnames from 'classnames';
 
 class Tabs extends Component {
@@ -41,19 +45,19 @@ class Tabs extends Component {
           <TabDokumen />
         </TabPane>
         <TabPane tabId="4">
-          {`4. ${this.lorem()}`}
+          <TabPengangkutan />
         </TabPane>
         <TabPane tabId="5">
-          {`5. ${this.lorem()}`}
+          <TabKemasanKontainer />
         </TabPane>
         <TabPane tabId="6">
-          {`6. ${this.lorem()}`}
+          <TabTransaksi />
         </TabPane>
         <TabPane tabId="7">
           {`7. ${this.lorem()}`}
         </TabPane>
         <TabPane tabId="8">
-          {`8. ${this.lorem()}`}
+          <TabPungutan />
         </TabPane>
       </>
     );

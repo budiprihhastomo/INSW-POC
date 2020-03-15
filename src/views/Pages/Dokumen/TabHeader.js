@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Col, CustomInput, Form, FormGroup, Label, Row} from 'reactstrap';
+import { Button, Col, CustomInput, Form, FormGroup, Label, Row } from 'reactstrap';
 import { Formik } from 'formik';
 import * as Yup from 'yup'
 import states from './data/states';
@@ -13,29 +13,29 @@ const options2 = states.AU;
 const validationSchema = function (values) {
   return Yup.object().shape({
     select: Yup.string()
-    .required('Pilih Pelabuhan Tujuan!'),
+      .required('Pilih Pelabuhan Tujuan!'),
     firstName: Yup.string()
-    .min(2, `First name has to be at least 2 characters`)
-    .required('First name is required'),
+      .min(2, `First name has to be at least 2 characters`)
+      .required('First name is required'),
     lastName: Yup.string()
-    .min(1, `Last name has to be at least 1 character`)
-    .required('Last name is required'),
+      .min(1, `Last name has to be at least 1 character`)
+      .required('Last name is required'),
     userName: Yup.string()
-    .min(5, `Username has to be at least 5 characters`)
-    .required('Username is required'),
+      .min(5, `Username has to be at least 5 characters`)
+      .required('Username is required'),
     email: Yup.string()
-    .email('Invalid email address')
-    .required('Email is required!'),
+      .email('Invalid email address')
+      .required('Email is required!'),
     password: Yup.string()
-    .min(6, `Password has to be at least ${6} characters!`)
-    .matches(/(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/, 'Password must contain: numbers, uppercase and lowercase letters\n')
-    .required('Password is required'),
+      .min(6, `Password has to be at least ${6} characters!`)
+      .matches(/(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/, 'Password must contain: numbers, uppercase and lowercase letters\n')
+      .required('Password is required'),
     confirmPassword: Yup.string()
-    .oneOf([values.password], 'Passwords must match')
-    .required('Password confirmation is required'),
+      .oneOf([values.password], 'Passwords must match')
+      .required('Password confirmation is required'),
     accept: Yup.bool()
-    .required('* required')
-    .test('accept', 'You have to accept our Terms and Conditions!', value => value === true),
+      .required('* required')
+      .test('accept', 'You have to accept our Terms and Conditions!', value => value === true),
   })
 }
 
@@ -80,7 +80,7 @@ const onSubmit = (values, { setSubmitting, setErrors }) => {
 }
 
 class Header extends React.Component {
-  constructor(props){
+  constructor(props) {
     super(props)
     this.saveChanges = this.saveChanges.bind(this);
     this.touchAll = this.touchAll.bind(this);
@@ -92,7 +92,7 @@ class Header extends React.Component {
     }
   }
 
-  findFirstError (formName, hasError) {
+  findFirstError(formName, hasError) {
     const form = document.forms[formName]
     for (let i = 0; i < form.length; i++) {
       if (hasError(form[i].name)) {
@@ -102,7 +102,7 @@ class Header extends React.Component {
     }
   }
 
-  validateForm (errors) {
+  validateForm(errors) {
     this.findFirstError('simpleForm', (fieldName) => {
       return Boolean(errors[fieldName])
     })
@@ -110,14 +110,14 @@ class Header extends React.Component {
 
   touchAll(setTouched, errors) {
     setTouched({
-        firstName: true,
-        lastName: true,
-        userName: true,
-        email: true,
-        password: true,
-        confirmPassword: true,
-        accept: true
-      }
+      firstName: true,
+      lastName: true,
+      userName: true,
+      email: true,
+      password: true,
+      confirmPassword: true,
+      accept: true
+    }
     )
     this.validateForm(errors)
   }
@@ -139,107 +139,107 @@ class Header extends React.Component {
       <div className="animated fadeIn">
         <br />
         <Formik
-            initialValues={initialValues}
-            validate={validate(validationSchema)}
-            onSubmit={onSubmit}
-            render={
-            ({handleSubmit}) => (
-                <Row>
+          initialValues={initialValues}
+          validate={validate(validationSchema)}
+          onSubmit={onSubmit}
+          render={
+            ({ handleSubmit }) => (
+              <Row>
                 <Col lg="12">
-                    <Form onSubmit={handleSubmit} noValidate name='simpleForm'>
+                  <Form onSubmit={handleSubmit} noValidate name='simpleForm'>
                     <FormGroup row>
-                        <Col xs="6" md={{offset: 2, size: 4}} xs="12">
-                            <Label>No. Pengajuan :</Label>
-                        </Col>
-                        <Col xs="6" md="6" xs="12">
-                            <p className="form-control-static">000020-161682-20200314-000537</p>
-                        </Col>
+                      <Col xs="6" md={{ offset: 2, size: 4 }} xs="12">
+                        <Label>No. Pengajuan :</Label>
+                      </Col>
+                      <Col xs="6" md="6" xs="12">
+                        <p className="form-control-static">000020-161682-20200314-000537</p>
+                      </Col>
                     </FormGroup>
                     <FormGroup row>
-                        <Col xs="6" md={{offset: 2, size: 4}} xs="12">
-                            <Label>Pelabuhan Tujuan :</Label>
-                        </Col>
-                        <Col xs="6" md="4" xs="12">
-                          <Select
-                            name="select-ekspor"
-                            placeholder="Pelabuhan Muat Ekspor"
-                            value={this.state.value}
-                            options={options}
-                            onChange={this.saveChanges}
-                          />
-                        </Col>
-                    </FormGroup>
-                    <FormGroup row>
-                        <Col xs="6" md={{offset: 2, size: 4}} xs="12">
-                            <Label>Kantor Pabean Bongkar :</Label>
-                        </Col>
-                        <Col xs="6" md="4" xs="12">
-                            <p className="form-control-static">081400 - KPPBC ATAMBUA</p>
-                        </Col>
-                    </FormGroup>
-                    <FormGroup row>
-                        <Col xs="6" md={{offset: 2, size: 4}} xs="12">
-                            <Label>Jenis PIB :</Label>
-                        </Col>
-                        <Col xs="6" md="4" xs="12">
+                      <Col xs="6" md={{ offset: 2, size: 4 }} xs="12">
+                        <Label>Pelabuhan Tujuan :</Label>
+                      </Col>
+                      <Col xs="6" md="4" xs="12">
                         <Select
-                            name="select-pib"
-                            placeholder="Pilih Jenis"
-                            value={this.state.value2}
-                            options={options2}
-                            onChange={this.saveOptions}
-                          />
-                        </Col>
+                          name="select-ekspor"
+                          placeholder="Pelabuhan Muat Ekspor"
+                          value={this.state.value}
+                          options={options}
+                          onChange={this.saveChanges}
+                        />
+                      </Col>
                     </FormGroup>
                     <FormGroup row>
-                        <Col xs="6" md={{offset: 2, size: 4}} xs="12">
-                            <Label>Jenis Impor :</Label>
-                        </Col>
-                        <Col xs="6" md="4" xs="12">
+                      <Col xs="6" md={{ offset: 2, size: 4 }} xs="12">
+                        <Label>Kantor Pabean Bongkar :</Label>
+                      </Col>
+                      <Col xs="6" md="4" xs="12">
+                        <p className="form-control-static">081400 - KPPBC ATAMBUA</p>
+                      </Col>
+                    </FormGroup>
+                    <FormGroup row>
+                      <Col xs="6" md={{ offset: 2, size: 4 }} xs="12">
+                        <Label>Jenis PIB :</Label>
+                      </Col>
+                      <Col xs="6" md="4" xs="12">
                         <Select
-                            name="select-pib"
-                            placeholder="Pilih Jenis Impor"
-                            value={this.state.value3} 
-                            options={options}
-                            onChange={this.saveSelect}
-                          />
-                        </Col>
+                          name="select-pib"
+                          placeholder="Pilih Jenis"
+                          value={this.state.value2}
+                          options={options2}
+                          onChange={this.saveOptions}
+                        />
+                      </Col>
                     </FormGroup>
                     <FormGroup row>
-                        <Col xs="6" md={{offset: 2, size: 4}} xs="12">
-                            <Label>Cara Pembayaran :</Label>
-                        </Col>
-                        <Col xs="6" md="4" xs="12">
-                            <CustomInput 
-                                type="select" 
-                                name="selectBayar" 
-                                id="selectBayar"
-                            >
-                                <option value="">Pilih Cara Pembayaran</option>
-                                <option value="1">Option #1</option>
-                                <option value="2">Option #2</option>
-                                <option value="3">Option #3</option>
-                            </CustomInput>
-                        </Col>
+                      <Col xs="6" md={{ offset: 2, size: 4 }} xs="12">
+                        <Label>Jenis Impor :</Label>
+                      </Col>
+                      <Col xs="6" md="4" xs="12">
+                        <Select
+                          name="select-pib"
+                          placeholder="Pilih Jenis Impor"
+                          value={this.state.value3}
+                          options={options}
+                          onChange={this.saveSelect}
+                        />
+                      </Col>
                     </FormGroup>
                     <FormGroup row>
-                        <Col xs="6" md={{offset: 2, size: 4}} xs="12">
-                            <Label>No API-U/P :</Label>
-                        </Col>
-                        <Col xs="6" md="4" xs="12">
-                            <p className="form-control-static"></p>
-                        </Col>
+                      <Col xs="6" md={{ offset: 2, size: 4 }} xs="12">
+                        <Label>Cara Pembayaran :</Label>
+                      </Col>
+                      <Col xs="6" md="4" xs="12">
+                        <CustomInput
+                          type="select"
+                          name="selectBayar"
+                          id="selectBayar"
+                        >
+                          <option value="">Pilih Cara Pembayaran</option>
+                          <option value="1">Option #1</option>
+                          <option value="2">Option #2</option>
+                          <option value="3">Option #3</option>
+                        </CustomInput>
+                      </Col>
                     </FormGroup>
                     <FormGroup row>
-                        <Col xs="6" md={{offset: 2, size: 4}} xs="12">
-                            <Button type="submit" color="primary" className="mr-1"><i className="fa fa-save"></i>&nbsp; Simpan Data</Button>
-                            {/* <Button type="button" color="success" className="mr-1" onClick={() => this.touchAll(setTouched, errors)}  disabled={isValid}>Validate</Button>
+                      <Col xs="6" md={{ offset: 2, size: 4 }} xs="12">
+                        <Label>No API-U/P :</Label>
+                      </Col>
+                      <Col xs="6" md="4" xs="12">
+                        <p className="form-control-static"></p>
+                      </Col>
+                    </FormGroup>
+                    <FormGroup row>
+                      <Col xs="6" md={{ offset: 2, size: 4 }} xs="12">
+                        <Button type="submit" color="primary" className="mr-1"><i className="fa fa-save"></i>&nbsp; Simpan Data</Button>
+                        {/* <Button type="button" color="success" className="mr-1" onClick={() => this.touchAll(setTouched, errors)}  disabled={isValid}>Validate</Button>
                             <Button type="reset" color="danger" className="mr-1" onClick={handleReset}>Reset</Button> */}
-                        </Col>
+                      </Col>
                     </FormGroup>
-                    </Form>
+                  </Form>
                 </Col>
-                </Row>
+              </Row>
             )} />
       </div>
     )
