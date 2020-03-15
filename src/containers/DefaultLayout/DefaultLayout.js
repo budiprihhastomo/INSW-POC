@@ -36,6 +36,7 @@ class DefaultLayout extends Component {
   }
 
   render() {
+    if (!this.props.keycloak) return <Redirect to="/forbidden" />;
     return (
       <div className="app">
         <AppHeader fixed>
@@ -47,9 +48,11 @@ class DefaultLayout extends Component {
           <AppSidebar fixed display="lg">
             <AppSidebarHeader />
             <AppSidebarForm />
-            <Suspense>
-              <AppSidebarNav navConfig={navigation} {...this.props} />
-            </Suspense>
+            {this.props.keycloak && (
+              <Suspense>
+                <AppSidebarNav navConfig={navigation} {...this.props} />
+              </Suspense>
+            )}
             <AppSidebarFooter />
             <AppSidebarMinimizer />
           </AppSidebar>
@@ -59,7 +62,7 @@ class DefaultLayout extends Component {
               <Suspense fallback={this.loading()}>
                 <Switch>
                   {routes.map((route, idx) => {
-                    return route.component ? (
+                    return this.props.keycloak && route.component ? (
                       <Route
                         key={idx}
                         path={route.path}
