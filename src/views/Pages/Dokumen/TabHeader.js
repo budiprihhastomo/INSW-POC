@@ -1,26 +1,20 @@
 import React from "react";
-import {
-  Button,
-  Col,
-  CustomInput,
-  Form,
-  FormGroup,
-  Label,
-  Row
-} from "reactstrap";
+import { Button, Col, Form, FormGroup, Label, Row } from "reactstrap";
 import { Formik } from "formik";
 import * as Yup from "yup";
 import states from "./data/states";
 import Select from "react-select";
 import "react-select/dist/react-select.min.css";
-// import './ValidationForms.css'
+
+import { _PelabuhanTujuan } from "../../../action/BC2.0/tabHeader";
 
 const options = states.US;
 const options2 = states.AU;
+const { kodeBayar } = states;
 
 const validationSchema = function(values) {
   return Yup.object().shape({
-    select: Yup.string().required("Pilih Pelabuhan Tujuan!"),
+    pelabuhanTujuan: Yup.string().required("Pilih Pelabuhan Tujuan!"),
     firstName: Yup.string()
       .min(2, `First name has to be at least 2 characters`)
       .required("First name is required"),
@@ -95,13 +89,11 @@ const onSubmit = (values, { setSubmitting, setErrors }) => {
 class Header extends React.Component {
   constructor(props) {
     super(props);
-    this.saveChanges = this.saveChanges.bind(this);
     this.touchAll = this.touchAll.bind(this);
-
     this.state = {
-      value: null,
-      value2: null,
-      value3: null
+      pelabuhanTujuan: null,
+      pib: null,
+      jenisImpor: null
     };
   }
 
@@ -116,35 +108,28 @@ class Header extends React.Component {
   }
 
   validateForm(errors) {
-    this.findFirstError("simpleForm", fieldName => {
+    this.findFirstError("tabHeader", fieldName => {
       return Boolean(errors[fieldName]);
     });
   }
 
   touchAll(setTouched, errors) {
     setTouched({
-      firstName: true,
-      lastName: true,
-      userName: true,
-      email: true,
-      password: true,
-      confirmPassword: true,
-      accept: true
+      pelabuhanTujuan: true,
+      jenisPIB: true,
+      jenisImpor: true,
+      pembayaran: true
     });
     this.validateForm(errors);
   }
 
-  saveChanges(value) {
-    this.setState({ value });
+  _setValueSelect = (name, value) => {
+    this.setState({ [name]: value });
+  };
+
+  componentDidMount() {
+    _PelabuhanTujuan();
   }
-
-  saveOptions = value2 => {
-    this.setState({ value2 });
-  };
-
-  saveSelect = value3 => {
-    this.setState({ value3 });
-  };
 
   render() {
     return (
@@ -157,7 +142,7 @@ class Header extends React.Component {
           render={({ handleSubmit }) => (
             <Row>
               <Col lg="12">
-                <Form onSubmit={handleSubmit} noValidate>
+                <Form onSubmit={handleSubmit} noValidate name="tabHeader">
                   <FormGroup row>
                     <Label
                       for="noPengajuan"
@@ -174,7 +159,7 @@ class Header extends React.Component {
                   </FormGroup>
                   <FormGroup row>
                     <Label
-                      for="select-ekspor"
+                      for="pelabuhanTujuan"
                       md={{ offset: 2, size: 4 }}
                       xs="12"
                     >
@@ -182,11 +167,13 @@ class Header extends React.Component {
                     </Label>
                     <Col md="4" xs="12">
                       <Select
-                        name="select-ekspor"
-                        placeholder="Pelabuhan Muat Ekspor"
-                        value={this.state.value}
+                        name="pelabuhanTujuan"
+                        placeholder="Pelabuhan Tujuan"
+                        value={this.state.pelabuhanTujuan}
                         options={options}
-                        onChange={this.saveChanges}
+                        onChange={({ value }) =>
+                          this._setValueSelect("pelabuhanTujuan", value)
+                        }
                       />
                     </Col>
                   </FormGroup>
@@ -205,34 +192,34 @@ class Header extends React.Component {
                     </Col>
                   </FormGroup>
                   <FormGroup row>
-                    <Label for="select-pib" md={{ offset: 2, size: 4 }} xs="12">
+                    <Label for="pib" md={{ offset: 2, size: 4 }} xs="12">
                       Jenis PIB :
                     </Label>
                     <Col md="4" xs="12">
                       <Select
-                        name="select-pib"
-                        placeholder="Pilih Jenis"
-                        value={this.state.value2}
+                        name="pib"
+                        placeholder="Pilih Jenis PIB"
+                        value={this.state.pib}
                         options={options2}
-                        onChange={this.saveOptions}
+                        onChange={({ value }) =>
+                          this._setValueSelect("pib", value)
+                        }
                       />
                     </Col>
                   </FormGroup>
                   <FormGroup row>
-                    <Label
-                      for="select-impor"
-                      md={{ offset: 2, size: 4 }}
-                      xs="12"
-                    >
+                    <Label for="jenisImpor" md={{ offset: 2, size: 4 }} xs="12">
                       Jenis Impor :
                     </Label>
                     <Col md="4" xs="12">
                       <Select
-                        name="select-impor"
+                        name="jenisImpor"
                         placeholder="Pilih Jenis Impor"
-                        value={this.state.value3}
+                        value={this.state.jenisImpor}
                         options={options}
-                        onChange={this.saveSelect}
+                        onChange={({ value }) =>
+                          this._setValueSelect("jenisImpor", value)
+                        }
                       />
                     </Col>
                   </FormGroup>
@@ -245,16 +232,15 @@ class Header extends React.Component {
                       Cara Pembayaran :
                     </Label>
                     <Col md="4" xs="12">
-                      <CustomInput
-                        type="select"
-                        name="select-bayar"
-                        id="select-bayar"
-                      >
-                        <option value="">Pilih Cara Pembayaran</option>
-                        <option value="1">Option #1</option>
-                        <option value="2">Option #2</option>
-                        <option value="3">Option #3</option>
-                      </CustomInput>
+                      <Select
+                        name="jenisBayar"
+                        placeholder="Pilih Cara Pembayaran"
+                        value={this.state.jenisBayar}
+                        options={kodeBayar}
+                        onChange={({ value }) =>
+                          this._setValueSelect("jenisBayar", value)
+                        }
+                      />
                     </Col>
                   </FormGroup>
                   <FormGroup row>
@@ -267,7 +253,12 @@ class Header extends React.Component {
                   </FormGroup>
                   <FormGroup row>
                     <Col md={{ offset: 2, size: 4 }} xs="12">
-                      <Button type="submit" color="primary" className="mr-1">
+                      <Button
+                        type="submit"
+                        color="primary"
+                        className="mr-1"
+                        onClick={handleSubmit}
+                      >
                         <i className="fa fa-save"></i>&nbsp; Simpan Data
                       </Button>
                     </Col>
